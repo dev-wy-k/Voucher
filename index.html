@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="font-awesone/css/all.min.css">
+
+    <style>
+
+        .width-50{
+            width: 50px;
+        }
+
+        .width-300{
+            width: 300px;
+        }
+
+        .width-150{
+            width: 150px;
+        }
+
+        td{
+            vertical-align: middle !important;
+        }
+
+    </style>
+
+    <title>Voucher</title>
+</head>
+<body>
+
+    <div class="container min-vh-100">
+        <div class="row justify-content-center py-5">
+            <div class="col-12 col-lg-10">
+                <div class="">
+                    <h3 class="text-danger">Voucher App ( Apply jQuery )</h3>
+                    <p class="text-muted mb-5">Bootstrap & jQuery</p>
+                </div>
+
+                <div class="d-flex justify-content-between mb-3">
+                    <h4 class="mb-0">Product List</h4>
+                    <button class="btn btn-danger add-row-btn">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Product Name</th>
+                            <th class="text-right">Cost</th>
+                            <th class="text-right">Quantity</th>
+                            <th class="text-right">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        
+                        
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="text-center font-weight-bold" >Total</td>
+                            <td class="">
+                                <h2 class="text-right font-weight-bolder" id="total">0</h2>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+
+        </div>
+    </div>  
+
+
+
+
+    <script src="jquery-3.3.1.min.js"></script>
+
+    <script>
+
+        function addRow() {
+            $("tbody").append(`
+            
+            <tr>
+                <td class="width-50">
+                    <button class="btn btn-outline-danger del-btn">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+                <td class="width-300">
+                    <input type="text" name="" class="form-control text-capitalize product-name">
+                </td>
+                <td class="width-150">
+                    <input type="number" name="" class="form-control text-right cost" value="0" min="0">
+                </td>
+                <td class="width-150">
+                    <input type="number" name="" class="form-control text-right quantity" value="0" min="0">
+                </td>
+                <td class="text-right">
+                    <h4 class="mb-0 font-weight-bold price">0</h4>
+                </td>
+            </tr>
+            
+            
+            `);
+        }
+
+
+
+        
+        function total(){
+
+            $("#total").html($(".price").toArray().map(el=>el.innerHTML).reduce((x,y)=>Number(x)+Number(y)));
+
+        }
+
+
+
+         
+        addRow();
+
+        $(".add-row-btn").click(function(){
+
+            addRow()
+
+        });
+
+
+
+
+        
+        $("tbody").delegate(".del-btn", "click", function(){
+
+            
+            if($("tbody tr").toArray().length === 1 ){
+                addRow();
+            }
+
+            
+            $(this).parentsUntil("tbody").remove();
+            total();
+
+        });
+
+
+
+
+        
+        $("tbody").delegate("input", "keyup change", function(){
+            
+            
+            let cost = $(this).parentsUntil("tbody").find(".cost").val();
+            let quantity = $(this).parentsUntil("tbody").find(".quantity").val();
+
+            $(this).parentsUntil("tbody").find(".price").html(cost * quantity);
+            total();
+        }); 
+
+    </script>
+</body>
+</html>
